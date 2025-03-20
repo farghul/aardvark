@@ -1,0 +1,33 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Directories
+local/
+temp/
+test/
+vendor/
+
+# Default desktop settings files
+.DS_Store
+Thumbs.db
+.idea
+.vscode
+
+# Go workspace file
+go.work
+go.work.sum
+
+# env file
+.env
+.env.example
+env.json
