@@ -1,6 +1,6 @@
 # Aardvark
 
-Aardvark is a WordPress website (blog) archiving tool. It Automates the process of archiving, deleting, and restoring blog sites.
+Aardvark is a WordPress website (blog) archiving tool. It Automates the process of archiving, restoring, and deleting blog sites.
 
 ![Aardvark](aardvark.svg)
 
@@ -49,9 +49,9 @@ Current operational flags are:
 
 - -a (Archive)
 
-- -d (Delete)
-
 - -r (Restore)
+
+- -d (Delete)
 
 ### Example Deployment
 
@@ -63,4 +63,4 @@ aardvark -a www.example.com
 
 ## License
 
-Code is distributed under [The Unlicense](https://github.com/farghul/spider/blob/main/LICENSE.md) and is part of the Public Domain.
+Code is distributed under [The Unlicense](https://github.com/farghul/aardvark/blob/main/LICENSE.md) and is part of the Public Domain.
