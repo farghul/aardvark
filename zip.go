@@ -10,6 +10,7 @@ import (
 )
 
 func zipFiles(archive string, files ...string) (err error) {
+	changeDIR("/data/automation/temp")
 	// Create the ZIP file
 	zipFile, err := os.Create(archive)
 	inspect(err)
