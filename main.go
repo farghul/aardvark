@@ -1,0 +1,95 @@
+package main
+
+import (
+	"encoding/json"
+	"os"
+	"strings"
+)
+
+// Start of the Ardvark application
+func main() {
+	choice := os.Args[1]
+	environment := os.Args[2]
+	fqdn = os.Args[3]
+	var dot []string
+
+	metadata := read("/data/automation/assets/" + environment + ".json")
+	json.Unmarshal([]byte(metadata), &target)
+
+	if strings.Contains(fqdn, "/") {
+		slash := strings.Split(fqdn, "/")
+		slug = slash[1]
+		hierarchy = slash[0]
+	} else if strings.Contains(fqdn, "www") {
+		dot = strings.Split(fqdn, ".")
+		slug = dot[1]
+		hierarchy = dot[2]
+	} else {
+		dot = strings.Split(fqdn, ".")
+		slug = dot[0]
+		hierarchy = dot[1]
+	}
+
+	if !fileExists(target["workspace"] + "assets/" + target["sites"]) {
+		document(target["workspace"]+"assets/"+target["sites"], []byte(getSites()))
+	}
+
+	siteID = getID(string(read(target["workspace"] + "assets/" + target["sites"])))
+	createTable(table)
+
+	if !fileExists(target["workspace"] + "assets/" + slug + ".csv") {
+		document(target["workspace"]+"assets/"+slug+".csv", []byte(getPlugins()))
+	}
+
+	switch choice {
+	case "-x":
+		banner("The " + choice + " switch is being called to archive the " + fqdn + " blog site.")
+
+		banner("Writing the archive event to the " + database + " database")
+		insertRow("archived", table)
+	case "-a":
+		banner("Exporting the " + fqdn + " database")
+		exportDB()
+
+		banner("Exporting the " + fqdn + " users")
+		exportUsers()
+
+		banner("Exporting the " + fqdn + " assets")
+		copyAssetsDR(target["assets"]+siteID+"/", target["vault"]+siteID+"/")
+		direct(confirm(), "ac")
+
+		err := zipFiles(slug+".zip", slug+".json", slug+".sql", slug+".csv", target["vault"]+siteID+"/")
+		inspect(err)
+
+		banner("Writing the archive event to the " + database + " database")
+		insertRow("archived", table)
+	case "-r":
+		if err := unzip(slug+".zip", target["assets"]+siteID+"/"); err != nil {
+			banner("Error unzipping file.")
+			inspect(err)
+			os.Exit(1)
+		}
+		banner("Successfully unzipped: " + slug + ".zip")
+
+		banner("Importing the " + fqdn + " database")
+		importDB()
+
+		banner("Importing the " + fqdn + " assets")
+		copyAssetsDR(target["vault"]+siteID+"/", target["assets"]+siteID+"/")
+		direct(confirm(), "ac")
+
+		banner("Fixing HTTP References")
+		fixProtocolDR()
+		direct(confirm(), "hf")
+
+		banner("Writing the restore event to the " + database + " database")
+		insertRow("restored", table)
+	case "-d":
+		execute("-v", "wp", "site", "delete", siteID, "--path="+target["wordpress"], "--yes")
+		banner("Writing the delete event to the " + database + " database")
+		insertRow("deleted", table)
+	}
+
+	// banner("Flushing the WordPress cache")
+	flushCache()
+}

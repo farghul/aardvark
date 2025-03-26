@@ -1,4 +1,4 @@
-module github.com/farghul/aardvark
+module project
 
 go 1.24
 
