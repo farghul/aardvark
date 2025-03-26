@@ -91,6 +91,7 @@ func exportUsers() {
 
 // Copy WordPress site assets to a new location
 func copyAssets(source, destination string) {
+	execute("-e", "mkdir "+destination)
 	execute("-v", "rsync", "-a", source, destination)
 }
 
