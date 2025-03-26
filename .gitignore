@@ -12,10 +12,8 @@
 *.out
 
 # Directories
-local/
 temp/
 test/
-vendor/
 
 # Default desktop settings files
 .DS_Store
@@ -30,4 +28,3 @@ go.work.sum
 # env file
 .env
 .env.example
-env.json

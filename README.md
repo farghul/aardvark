@@ -16,8 +16,8 @@ Aardvark is a WordPress website (blog) archiving tool. It Automates the process 
     "assets": "Path to your website assets",
     "folder": "Root folder of your WordPress installation",
     "server": "Server name hosting WordPress",
-    "wordpress": "Full path to the web/wp folder",
-    "user": "User authorized to make changes on the server"
+    "user": "User authorized to make changes on the server",
+    "wordpress": "Full path to the web/wp folder"
 }
 ```
 
