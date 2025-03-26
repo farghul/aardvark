@@ -28,7 +28,7 @@ func confirm() string {
 func proceed(action string) {
 	switch action {
 	case "ac":
-		copyAssets(target["vault"]+siteID+"/", target["assets"]+siteID+"/")
+		copyAssets()
 	case "hf":
 		fixProtocol()
 	}
@@ -68,8 +68,8 @@ func execute(variation, task string, args ...string) []byte {
 }
 
 // Navigate to specific directory
-func changeDIR(destnation string) {
-	os.Chdir(destnation)
+func changeDIR(goal string) {
+	os.Chdir(goal)
 }
 
 // Read any file and return the contents as a byte variable

@@ -23,7 +23,7 @@ var (
 	target map[string]string
 	db, _  = sql.Open("sqlite3", target["workspace"]+"assets/"+database+".db")
 	// String variables used to create objects
-	fqdn, hierarchy, siteID, slug string
+	fqdn, hierarchy, siteID, slug, source, destination string
 )
 
 // Create a new SQLite table if it doesn't exist
@@ -90,8 +90,8 @@ func exportUsers() {
 }
 
 // Copy WordPress site assets to a new location
-func copyAssets(source, destination string) {
-	execute("-e", "mkdir "+destination)
+func copyAssets() {
+	// execute("-e", "mkdir "+destination)
 	execute("-v", "rsync", "-a", source, destination)
 }
 
@@ -113,7 +113,7 @@ func flushCache() {
 /* ----- Dry Run Functions ----- */
 
 // Copy the site assets over using --dry-run
-func copyAssetsDR(source, destination string) {
+func copyAssetsDR() {
 	execute("-v", "rsync", "-a", source, destination, "--stats", "--dry-run")
 }
 
