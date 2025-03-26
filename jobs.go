@@ -28,6 +28,7 @@ var (
 
 // Create a new SQLite table if it doesn't exist
 func createTable(name string) {
+	changeDIR(target["workspace"] + "assets/")
 	db.Exec("CREATE TABLE IF NOT EXISTS " + name + " (id INTEGER PRIMARY KEY AUTOINCREMENT, slug TEXT NOT NULL, hierarchy TEXT NOT NULL, blogid TEXT NOT NULL, operation TEXT NOT NULL, server TEXT NOT NULL, created REAL NOT NULL)")
 }
 
@@ -68,7 +69,7 @@ func getSites() string {
 
 // Query WordPress for a list of plugins installed reletive to a specific site, and their current version
 func getPlugins() string {
-	query := execute("-c", "wp", "plugin", "list", "--status=active", "--fields=name,version", "--path="+target["wordpress"], "--url="+fqdn, "--format=csv")
+	query := execute("-c", "wp", "plugin", "list", "--status=active", "--fields=name,version", "--path="+target["wordpress"], "--url="+fqdn, "--skip-plugins", "--skip-themes", "--format=csv")
 	result := strings.ReplaceAll(string(query), "/\n", ",")
 	result = strings.TrimSuffix(result, ",")
 

@@ -59,7 +59,7 @@ func main() {
 		copyAssetsDR()
 		direct(confirm(), "ac")
 
-		err := zipFiles(slug+".zip", slug+".json", slug+".sql", slug+".csv", target["vault"]+siteID+"/")
+		err := zipFiles(slug+".zip", slug+".json", slug+".sql", slug+".csv", target["vault"]+siteID)
 		inspect(err)
 
 		banner("Writing the archive event to the " + database + " database")

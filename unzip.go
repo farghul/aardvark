@@ -10,6 +10,7 @@ import (
 )
 
 func unzip(zipFile, destDir string) error {
+	changeDIR("/data/automation/temp")
 	reader, err := zip.OpenReader(zipFile)
 	inspect(err)
 	defer reader.Close()
