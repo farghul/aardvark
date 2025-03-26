@@ -48,7 +48,7 @@ func main() {
 		banner("Writing the archive event to the " + database + " database")
 		insertRow("archived", table)
 	case "-a":
-		source, destination = target["assets"]+siteID+"/", target["vault"]
+		source, destination = target["assets"]+siteID+"/", target["vault"]+siteID+"/"
 		banner("Exporting the " + fqdn + " database")
 		exportDB()
 
@@ -59,13 +59,13 @@ func main() {
 		copyAssetsDR()
 		direct(confirm(), "ac")
 
-		err := zipFiles(slug+".zip", slug+".json", slug+".sql", slug+".csv", target["vault"])
+		err := zipFiles(slug+".zip", slug+".json", slug+".sql", slug+".csv", target["vault"]+siteID+"/")
 		inspect(err)
 
 		banner("Writing the archive event to the " + database + " database")
 		insertRow("archived", table)
 	case "-r":
-		source, destination = target["vault"], target["assets"]+siteID+"/"
+		source, destination = target["vault"]+siteID+"/", target["assets"]+siteID+"/"
 		if err := unzip(slug+".zip", target["assets"]+siteID+"/"); err != nil {
 			banner("Error unzipping file.")
 			inspect(err)
