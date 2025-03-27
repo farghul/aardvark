@@ -22,19 +22,18 @@ const (
 var (
 	target map[string]string
 	db, _  = sql.Open("sqlite3", target["workspace"]+"assets/"+database+".db")
-	// String variables used to create objects
+	// String variables
 	fqdn, hierarchy, siteID, slug, source, destination string
 )
 
 // Create a new SQLite table if it doesn't exist
-func createTable(name string) {
-	changeDIR(target["workspace"] + "assets/")
-	db.Exec("CREATE TABLE IF NOT EXISTS " + name + " (id INTEGER PRIMARY KEY AUTOINCREMENT, slug TEXT NOT NULL, hierarchy TEXT NOT NULL, blogid TEXT NOT NULL, operation TEXT NOT NULL, server TEXT NOT NULL, created REAL NOT NULL)")
+func createTable() {
+	db.Exec("CREATE TABLE IF NOT EXISTS " + table + " (id INTEGER PRIMARY KEY AUTOINCREMENT, slug TEXT NOT NULL, hierarchy TEXT NOT NULL, blog TEXT NOT NULL, operation TEXT NOT NULL, server TEXT NOT NULL, created REAL NOT NULL)")
 }
 
 // Inser a row of data into the SQLite table
-func insertRow(operation, name string) {
-	stmt, err := db.Prepare("INSERT INTO  " + name + "(slug, hierarchy, blogid, operation, server, created) VALUES(?, ?, ?, ?, ?, ?)")
+func insertRow(operation string) {
+	stmt, err := db.Prepare("INSERT INTO  " + table + "(slug, hierarchy, blog, operation, server, created) VALUES(?, ?, ?, ?, ?, ?)")
 	inspect(err)
 	defer stmt.Close()
 

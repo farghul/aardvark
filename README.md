@@ -40,7 +40,7 @@ GOOS=linux GOARCH=amd64 go build -o [name] .
 ## Run
 
 ``` zsh
-[program] [operation flag] [website address]
+[program] [operation flag] [environment] [website address]
 ```
 
 ## Operations
@@ -56,7 +56,7 @@ Current operational flags are:
 ### Example Deployment
 
 ``` zsh
-aardvark -a www.example.com
+aardvark -a dev www.example.com
 ```
 
 **NOTE**: Do not include the `http://` or `https://` prefixes.
