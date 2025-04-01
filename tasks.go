@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"os"
 	"strings"
 	"time"
@@ -23,7 +24,7 @@ var (
 	target map[string]string
 	db, _  = sql.Open("sqlite3", target["workspace"]+"assets/"+database+".db")
 	// String variables
-	fqdn, hierarchy, siteID, slug, source, destination string
+	fqdn, hierarchy, slug, source, siteID, destination string
 )
 
 // Create a new SQLite table if it doesn't exist
@@ -56,7 +57,7 @@ func getID(list string) string {
 
 // Query WordPress for a list of all sites in the production environment
 func getSites() string {
-	query := execute("-c", "wp", "site", "list", "--fields=blog_id,url", "--path="+target["wordpress"], "--url="+target["address"], "--skip-plugins", "--skip-themes", "--format=csv")
+	query := execute("-c", "wp", "site", "list", "--fields=blog_id,url", "--path="+target["wordpress"], "--url="+target["address"], "--skip-plugins", "--skip-themes", "--skip-packages", "--format=csv")
 	result := strings.Replace(string(query), "blog_id,url\n", "", 1)
 	result = strings.ReplaceAll(result, "https://", "")
 	result = strings.ReplaceAll(result, "http://", "")
@@ -68,7 +69,7 @@ func getSites() string {
 
 // Query WordPress for a list of plugins installed reletive to a specific site, and their current version
 func getPlugins() string {
-	query := execute("-c", "wp", "plugin", "list", "--status=active", "--fields=name,version", "--path="+target["wordpress"], "--url="+fqdn, "--skip-plugins", "--skip-themes", "--format=csv")
+	query := execute("-c", "wp", "plugin", "list", "--status=active", "--fields=name,version", "--path="+target["wordpress"], "--url="+fqdn, "--skip-plugins", "--skip-themes", "--skip-packages", "--format=csv")
 	result := strings.ReplaceAll(string(query), "/\n", ",")
 	result = strings.TrimSuffix(result, ",")
 
@@ -91,8 +92,9 @@ func exportUsers() {
 
 // Copy WordPress site assets to a new location
 func copyAssets() {
-	// execute("-e", "mkdir "+destination)
-	execute("-v", "rsync", "-a", source, destination)
+	execute("-e", "mkdir", destination)
+	// execute("-v", "rsync", "-a", source, destination)
+	fmt.Println("-v rsync -a " + source + " " + destination)
 }
 
 // Import WordPress SQL database tables
@@ -114,7 +116,9 @@ func flushCache() {
 
 // Copy the site assets over using --dry-run
 func copyAssetsDR() {
-	execute("-v", "rsync", "-a", source, destination, "--stats", "--dry-run")
+	changeDIR(destination)
+	// execute("-v", "rsync", "-a", source, destination, "--stats", "--dry-run")
+	fmt.Println("-v rsync -a " + source + " " + destination + " --stats --dry-run")
 }
 
 // Catch any lingering http addresses using --dry-run
