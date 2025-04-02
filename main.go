@@ -13,7 +13,7 @@ func main() {
 	fqdn = os.Args[3]
 	var dot []string
 
-	metadata := read("/data/automation/assets/" + environment + ".json")
+	metadata := read("/data/automation/resources/" + environment + ".json")
 	json.Unmarshal([]byte(metadata), &target)
 	createTable()
 
@@ -31,11 +31,11 @@ func main() {
 		hierarchy = dot[1]
 	}
 
-	if !fileExists(target["workspace"] + "assets/" + target["sites"]) {
-		document(target["workspace"]+"assets/"+target["sites"], []byte(getSites()))
+	if !fileExists(target["workspace"] + "resources/" + target["sites"]) {
+		document(target["workspace"]+"resources/"+target["sites"], []byte(getSites()))
 	}
 
-	siteID = getID(string(read(target["workspace"] + "assets/" + target["sites"])))
+	siteID = getID(string(read(target["workspace"] + "resources/" + target["sites"])))
 
 	if !fileExists(target["workspace"] + "temp/" + slug + ".csv") {
 		document(target["workspace"]+"temp/"+slug+".csv", []byte(getPlugins()))

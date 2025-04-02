@@ -2,12 +2,12 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"os"
 	"strings"
 	"time"
 
-	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/ncruces/go-sqlite3/driver"
+	_ "github.com/ncruces/go-sqlite3/embed"
 )
 
 // Constant declarations
@@ -22,7 +22,7 @@ const (
 // Variables and map declarations
 var (
 	target map[string]string
-	db, _  = sql.Open("sqlite3", target["workspace"]+"assets/"+database+".db")
+	db, _  = sql.Open("sqlite3", "file:"+target["workspace"]+"resources/"+database+".db?_txlock=immediate")
 	// String variables
 	fqdn, hierarchy, slug, source, siteID, destination string
 )
@@ -93,8 +93,9 @@ func exportUsers() {
 // Copy WordPress site assets to a new location
 func copyAssets() {
 	execute("-e", "mkdir", destination)
-	// execute("-v", "rsync", "-a", source, destination)
-	fmt.Println("-v rsync -a " + source + " " + destination)
+	changeDIR(destination)
+	execute("-v", "rsync", "-a", source, destination)
+	// fmt.Println("-v rsync -a " + source + " " + destination)
 }
 
 // Import WordPress SQL database tables
@@ -116,9 +117,8 @@ func flushCache() {
 
 // Copy the site assets over using --dry-run
 func copyAssetsDR() {
-	changeDIR(destination)
-	// execute("-v", "rsync", "-a", source, destination, "--stats", "--dry-run")
-	fmt.Println("-v rsync -a " + source + " " + destination + " --stats --dry-run")
+	execute("-v", "rsync", "-a", source, destination, "--stats", "--dry-run")
+	// fmt.Println("-v rsync -a " + source + " " + destination + " --stats --dry-run")
 }
 
 // Catch any lingering http addresses using --dry-run
