@@ -12,6 +12,8 @@ import (
 // Tell the program what to do based on the results of a --dry-run
 func direct(answer, nav string) {
 	if strings.ToLower(answer) == "y" {
+		execute("-e", "mkdir", destination)
+		changeDIR(destination)
 		proceed(nav)
 	} else {
 		os.Exit(0)
@@ -28,8 +30,10 @@ func confirm() string {
 func proceed(action string) {
 	switch action {
 	case "ac":
+		banner("Exporting the " + fqdn + " assets")
 		copyAssets()
 	case "hf":
+		banner("Fixing HTTP References")
 		fixProtocol()
 	}
 }

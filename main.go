@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-// Start of the Ardvark application
+// Start of the Aardvark application
 func main() {
 	choice := os.Args[1]
 	environment := os.Args[2]
@@ -55,7 +55,7 @@ func main() {
 		banner("Exporting the " + fqdn + " users")
 		exportUsers()
 
-		banner("Exporting the " + fqdn + " assets")
+		banner("Exporting the " + fqdn + " assets (dry run)")
 		copyAssetsDR()
 		direct(confirm(), "ac")
 
@@ -76,11 +76,11 @@ func main() {
 		banner("Importing the " + fqdn + " database")
 		importDB()
 
-		banner("Importing the " + fqdn + " assets")
+		banner("Importing the " + fqdn + " assets (dry run)")
 		copyAssetsDR()
 		direct(confirm(), "ac")
 
-		banner("Fixing HTTP References")
+		banner("Fixing HTTP References (dry run)")
 		fixProtocolDR()
 		direct(confirm(), "hf")
 

@@ -78,7 +78,7 @@ func getPlugins() string {
 
 // Export the source WordPress site database to an sql file
 func exportDB() {
-	inside := execute("-c", "wp", "db", "tables", "--all-tables-with-prefix", "--url="+fqdn, "--path="+target["wordpress"], "--skip-plugins", "--skip-themes", "--format=csv")
+	inside := execute("-c", "wp", "db", "tables", "--all-tables-with-prefix", "--url="+fqdn, "--path="+target["wordpress"], "--skip-plugins", "--skip-themes", "--skip-packages", "--format=csv")
 	result := strings.ReplaceAll(string(inside), "\n", ",")
 	result = strings.TrimSuffix(result, ",")
 	execute("-v", "wp", "db", "export", "--tables="+result, target["workspace"]+"temp/"+slug+".sql", "--path="+target["wordpress"])
@@ -86,14 +86,12 @@ func exportDB() {
 
 // Create a user export file in JSON format
 func exportUsers() {
-	people := execute("-c", "wp", "user", "list", "--url="+fqdn, "--path="+target["wordpress"], "--skip-plugins", "--skip-themes", "--format=csv")
+	people := execute("-c", "wp", "user", "list", "--url="+fqdn, "--path="+target["wordpress"], "--skip-plugins", "--skip-themes", "--skip-packages", "--format=csv")
 	inspect(os.WriteFile(target["workspace"]+"temp/"+slug+".json", people, 0666))
 }
 
 // Copy WordPress site assets to a new location
 func copyAssets() {
-	execute("-e", "mkdir", destination)
-	changeDIR(destination)
 	execute("-v", "rsync", "-a", source, destination)
 	// fmt.Println("-v rsync -a " + source + " " + destination)
 }
