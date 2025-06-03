@@ -62,6 +62,9 @@ func main() {
 		err := zipFiles(slug+".zip", slug+".json", slug+".sql", slug+".csv", target["vault"]+siteID)
 		inspect(err)
 
+		banner("Moving " + slug + ".zip to the Jenkins workspace folder")
+		execute("-e", "mv", slug+".zip", target["jenkins"])
+
 		banner("Writing the archive event to the " + database + " database")
 		insertRow("archived")
 	case "-r":
