@@ -55,9 +55,9 @@ func main() {
 		banner("Exporting the " + fqdn + " users")
 		exportUsers()
 
-		banner("Exporting the " + fqdn + " assets (dry run)")
-		copyAssetsDR()
-		direct(confirm(), "ac")
+		banner("Exporting the " + fqdn + " assets")
+		copyAssets()
+		// direct(confirm(), "ac")
 
 		err := zipFiles(slug+".zip", slug+".json", slug+".sql", slug+".csv", target["vault"]+siteID)
 		inspect(err)
