@@ -63,7 +63,7 @@ func main() {
 		inspect(err)
 
 		banner("Moving " + slug + ".zip to the Jenkins workspace folder")
-		execute("-e", "mv", slug+".zip", target["jenkins"])
+		execute("-e", "cp", slug+".zip", target["jenkins"])
 
 		banner("Writing the archive event to the " + database + " database")
 		// insertRow("archived")
