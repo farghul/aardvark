@@ -15,7 +15,7 @@ func main() {
 
 	metadata := read("/data/automation/resources/" + environment + ".json")
 	json.Unmarshal([]byte(metadata), &target)
-	createTable()
+	// createTable()
 
 	if strings.Contains(fqdn, "/") {
 		slash := strings.Split(fqdn, "/")
@@ -46,7 +46,7 @@ func main() {
 		banner("The " + choice + " switch is being called to archive the " + fqdn + " blog site.")
 
 		banner("Writing the archive event to the " + database + " database")
-		insertRow("archived")
+		// insertRow("archived")
 	case "-a":
 		source, destination = target["assets"]+siteID+"/", target["vault"]+siteID+"/"
 		banner("Exporting the " + fqdn + " database")
@@ -66,7 +66,7 @@ func main() {
 		execute("-e", "mv", slug+".zip", target["jenkins"])
 
 		banner("Writing the archive event to the " + database + " database")
-		insertRow("archived")
+		// insertRow("archived")
 	case "-r":
 		source, destination = target["vault"]+siteID+"/", target["assets"]+siteID+"/"
 		if err := unzip(slug+".zip", target["assets"]+siteID+"/"); err != nil {
@@ -88,11 +88,11 @@ func main() {
 		direct(confirm(), "hf")
 
 		banner("Writing the restore event to the " + database + " database")
-		insertRow("restored")
+		// insertRow("restored")
 	case "-d":
 		execute("-v", "wp", "site", "delete", siteID, "--path="+target["wordpress"], "--yes")
 		banner("Writing the delete event to the " + database + " database")
-		insertRow("deleted")
+		// insertRow("deleted")
 	}
 
 	banner("Flushing the WordPress cache")
