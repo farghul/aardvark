@@ -1,50 +1,11 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"io"
 	"os"
 	"os/exec"
-	"strings"
 )
-
-// Tell the program what to do based on the results of a --dry-run
-func direct(answer, nav string) {
-	if strings.ToLower(answer) == "y" {
-		execute("-e", "mkdir", destination)
-		changeDIR(destination)
-		proceed(nav)
-	} else {
-		os.Exit(0)
-	}
-}
-
-// Get user confirmation after completion of a --dry-run
-func confirm() string {
-	answer := solicit("Does this output seem acceptable? Shall we continue without the --dry-run flag? (y/n) ")
-	return answer
-}
-
-// Execute the functions without a --dry-run condition
-func proceed(action string) {
-	switch action {
-	case "ac":
-		banner("Exporting the " + fqdn + " assets")
-		copyAssets()
-	case "hf":
-		banner("Fixing HTTP References")
-		fixProtocol()
-	}
-}
-
-// Get user input via screen prompt
-func solicit(prompt string) string {
-	reader := bufio.NewReader(os.Stdin)
-	fmt.Print(prompt)
-	response, _ := reader.ReadString('\n')
-	return strings.TrimSpace(response)
-}
 
 // Run standard terminal commands
 func execute(variation, task string, args ...string) []byte {
