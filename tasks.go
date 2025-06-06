@@ -22,7 +22,7 @@ var (
 	target map[string]string
 	// db, _  = sql.Open("sqlite3", "file:"+target["workspace"]+"resources/"+database+".db?_txlock=immediate")
 	// String variables
-	fqdn, hierarchy, slug, source, siteID, destination string
+	fqdn, slug, source, siteID, destination string
 )
 
 // Create a new SQLite table if it doesn't exist

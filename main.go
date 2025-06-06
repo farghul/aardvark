@@ -11,25 +11,27 @@ func main() {
 	choice := os.Args[1]
 	environment := os.Args[2]
 	fqdn = os.Args[3]
-	var dot []string
+	// var dot []string
 
 	metadata := read("/data/automation/resources/" + environment + ".json")
 	json.Unmarshal([]byte(metadata), &target)
 	// createTable()
+	slash := strings.Split(fqdn, "/")
+	slug = slash[1]
 
-	if strings.Contains(fqdn, "/") {
-		slash := strings.Split(fqdn, "/")
-		slug = slash[1]
-		hierarchy = slash[0]
-	} else if strings.HasPrefix(fqdn, "www") {
-		dot = strings.Split(fqdn, ".")
-		slug = dot[1]
-		hierarchy = dot[2]
-	} else {
-		dot = strings.Split(fqdn, ".")
-		slug = dot[0]
-		hierarchy = dot[1]
-	}
+	// if strings.Contains(fqdn, "/") {
+	// 	slash := strings.Split(fqdn, "/")
+	// 	slug = slash[1]
+	// 	// hierarchy := slash[0]
+	// } else if strings.HasPrefix(fqdn, "www") {
+	// 	dot = strings.Split(fqdn, ".")
+	// 	slug = dot[1]
+	// 	// hierarchy := dot[2]
+	// } else {
+	// 	dot = strings.Split(fqdn, ".")
+	// 	slug = dot[0]
+	// 	// hierarchy := dot[1]
+	// }
 
 	if !fileExists(target["workspace"] + "resources/" + target["sites"]) {
 		document(target["workspace"]+"resources/"+target["sites"], []byte(getSites()))
@@ -58,8 +60,8 @@ func main() {
 		err := zipFiles(slug+".zip", slug+".json", slug+".sql", slug+".csv", target["vault"]+siteID)
 		inspect(err)
 
-		banner("Moved " + slug + ".zip to the Jenkins workspace folder")
-		execute("-e", "cp", slug+".zip", target["jenkins"])
+		// banner("Moved " + slug + ".zip to the Jenkins workspace folder")
+		// execute("-e", "cp", slug+".zip", target["jenkins"])
 
 		banner("Writing the archive event to the " + database + " database")
 		// insertRow("archived")
