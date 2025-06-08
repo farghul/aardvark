@@ -19,26 +19,9 @@ const (
 
 // Variables and map declarations
 var (
-	target map[string]string
-	// db, _  = sql.Open("sqlite3", "file:"+target["workspace"]+"resources/"+database+".db?_txlock=immediate")
-	// String variables
+	target                                  map[string]string
 	fqdn, slug, source, siteID, destination string
 )
-
-// Create a new SQLite table if it doesn't exist
-// func createTable() {
-// 	db.Exec("CREATE TABLE IF NOT EXISTS " + table + " (id INTEGER PRIMARY KEY AUTOINCREMENT, slug TEXT NOT NULL, hierarchy TEXT NOT NULL, blog TEXT NOT NULL, operation TEXT NOT NULL, server TEXT NOT NULL, created REAL NOT NULL)")
-// }
-
-// Inser a row of data into the SQLite table
-// func insertRow(operation string) {
-// 	stmt, err := db.Prepare("INSERT INTO  " + table + "(slug, hierarchy, blog, operation, server, created) VALUES(?, ?, ?, ?, ?, ?)")
-// 	inspect(err)
-// 	defer stmt.Close()
-
-// 	_, err = stmt.Exec(slug, hierarchy, siteID, operation, target["server"], time.Now())
-// 	inspect(err)
-// }
 
 // Search the blog list to find the ID that matches the supplied URL
 func getID(list string) string {
@@ -92,7 +75,6 @@ func exportUsers() {
 func copyAssets() {
 	changeDIR(destination)
 	execute("-v", "rsync", "-a", source, destination)
-	// fmt.Println("-v rsync -a " + source + " " + destination)
 }
 
 // Import WordPress SQL database tables
