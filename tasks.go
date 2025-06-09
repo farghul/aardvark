@@ -3,9 +3,6 @@ package main
 import (
 	"os"
 	"strings"
-
-	_ "github.com/ncruces/go-sqlite3/driver"
-	_ "github.com/ncruces/go-sqlite3/embed"
 )
 
 // Constant declarations
@@ -19,7 +16,8 @@ const (
 
 // Variables and map declarations
 var (
-	target                                  map[string]string
+	target map[string]string
+	// global string variables
 	fqdn, slug, source, siteID, destination string
 )
 

@@ -43,8 +43,6 @@ func main() {
 
 		err := zipFiles(slug+".zip", slug+".json", slug+".sql", slug+".csv", target["vault"]+siteID)
 		inspect(err)
-
-		banner("Writing the archive event to the " + database + " database")
 	case "-r":
 		source, destination = target["vault"]+siteID+"/", target["assets"]+siteID+"/"
 		if err := unzip(slug+".zip", target["assets"]+siteID+"/"); err != nil {
@@ -62,8 +60,6 @@ func main() {
 
 		banner("Fixed HTTP References")
 		fixProtocol()
-
-		banner("Writing the restore event to the " + database + " database")
 	case "-d":
 		execute("-v", "wp", "site", "delete", siteID, "--path="+target["wordpress"], "--yes")
 		banner("Writing the delete event to the " + database + " database")
