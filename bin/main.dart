@@ -18,7 +18,7 @@ void main(List<String> arguments) {
   ArgResults argResults = parser.parse(arguments);
   final paths = argResults.rest;
 
-  String location = '~/Documents/github/aardvark/jsons/';
+  String location = '/data/automation/checkouts/dac/jsons/';
   File metadata = File('$location${argResults.option('environment')}.json');
   unmarshal = jsonDecode(readFile(metadata));
 
