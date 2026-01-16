@@ -1,0 +1,36 @@
+# Exclude generated files
+.DS_Store
+._.DS_Store
+.idea
+.Trashes
+.vscode
+Desktop.ini
+ehthumbs.db
+Thumbs.db
+**/*.class
+*.gem
+*.lock
+*.iso
+*.tmp
+*~
+
+# Custom Application
+jsons/*.json
+
+# Exclude specified directories
+.bundle/
+.dart_tool/
+.yardoc/
+_yardoc/
+local/
+
+# Exclude environment files
+.env
+.env.*
+!.env.example
+
+# Exclude project specific files
+env.json
+
+# Exclude Recycle Bin used on file shares
+$RECYCLE.BIN/

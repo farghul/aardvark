@@ -1,0 +1,17 @@
+name: aardvark
+description: A WordPress website (blog) archiving application.
+version: 1.0.0
+repository: https://github.com/farghul/aardvark.git
+
+environment:
+  sdk: ^3.10.7
+
+# Add regular dependencies here.
+dependencies:
+  path: ^1.9.0
+  args: ^2.7.0
+  process_run: ^1.2.4
+
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.25.6
