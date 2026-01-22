@@ -40,33 +40,33 @@ void main(List<String> arguments) {
     slug = parts[0];
   }
 
-  writeFile(File('${unmarshal['lists']}${unmarshal['sites']}'), getSites());
+  writeFile(File('${unmarshal['lists']}${unmarshal['sites']}'), getSiteList());
 
-  siteID = getID(
+  siteNumber = getSiteNumber(
     '${argResults.option('environment')}',
     readFile(File('${unmarshal['lists']}${unmarshal['sites']}')),
   );
 
-  emptyDir('${unmarshal['ephemeral']}');
+  emptyDirectory('${unmarshal['ephemeral']}');
 
-  writeFile(File('${unmarshal['ephemeral']}id.txt'), siteID);
-  writeFile(File('${unmarshal['ephemeral']}plugins.csv'), getPlugins());
-  writeFile(File('${unmarshal['ephemeral']}themes.csv'), getThemes());
+  writeFile(File('${unmarshal['ephemeral']}id.txt'), siteNumber);
+  writeFile(File('${unmarshal['ephemeral']}plugins.csv'), getPluginList());
+  writeFile(File('${unmarshal['ephemeral']}themes.csv'), getThemeList());
 
   execute('-d', 'cp', [
     '/data/www-app/${unmarshal['title']}/current/composer.lock',
     '${unmarshal['ephemeral']}',
   ]);
 
-  banner('Exporting the $slug database');
+  printBanner('Exporting the $slug database');
   exportDatabase();
 
-  writeFile(File('${unmarshal['ephemeral']}users.csv'), exportUsers());
-  banner('Exporting the $slug users');
+  writeFile(File('${unmarshal['ephemeral']}users.csv'), exportUserList());
+  printBanner('Exporting the $slug users');
 
-  banner('Exporting the $slug assets');
+  printBanner('Exporting the $slug assets');
   copyAssets('${unmarshal['assets']}', '${unmarshal['ephemeral']}');
 
-  banner('Flushing the WordPress cache');
+  printBanner('Flushing the WordPress cache');
   flushCaches();
 }

@@ -27,6 +27,12 @@ Aardvark is a WordPress website (blog) archiving application. It Automates the p
 
 ## Build
 
+Before building the application, change the value of the `location` variable to reflect your environment:
+
+``` dart
+  String location = '/data/automation/checkouts/dac/jsons/';
+```
+
 ``` zsh
 dart compile exe bin/main.dart
 ```

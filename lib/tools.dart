@@ -19,13 +19,8 @@ dynamic execute(String variation, String command, List<String> arguments) {
 }
 
 // Provide an informational message
-void banner(String message) {
+void printBanner(String message) {
   print('*** $message ***');
-}
-
-// Navigate to specific directory
-void changeDir(String destination) async {
-  execute('-d', 'cd', [destination]);
 }
 
 // Read any file and return the contents as a String variable
@@ -45,7 +40,7 @@ void deleteFile(File document) {
 }
 
 // Delete the contents a folder
-void emptyDir(String destination) async {
+void emptyDirectory(String destination) async {
   var target = Directory(destination);
   await for (var entity in target.list(recursive: true, followLinks: false)) {
     execute('-d', 'rm', [entity.path]);

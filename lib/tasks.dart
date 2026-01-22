@@ -1,12 +1,20 @@
 import 'package:aardvark/tools.dart';
 
-dynamic siteID, slug, unmarshal, url;
+dynamic siteNumber, slug, unmarshal, url;
 
 // Query WordPress for a list of all sites in the targeted environment
-String getSites() {
+String getSiteList() {
   var query = execute('-r', 'wp', [
-    'site list --fields=blog_id,url --ssh=${unmarshal['user']}@${unmarshal['server']}:${unmarshal['install']} --url=${unmarshal['address']} --skip-plugins --skip-themes --skip-packages --format=csv',
+    'site',
+    'list',
+    '--fields=blog_id,url',
+    '--ssh=${unmarshal['user']}@${unmarshal['server']}:${unmarshal['install']}',
+    '--url=${unmarshal['address']}',
+    '--skip-plugins',
+    '--skip-packages',
+    '--format=csv',
   ]);
+
   String result = query.stdout;
   result = result.replaceFirst('blog_id,url\n', '');
   result = result.replaceAll('https://', '');
@@ -16,8 +24,8 @@ String getSites() {
   return query.stdout;
 }
 
-// Search the blog list to find the ID that matches the supplied URL
-String getID(String environment, String list) {
+// Search the blog list to find the SiteNumber that matches the supplied URL
+String getSiteNumber(String environment, String list) {
   int counter = 0;
   String result = '';
   List<String> blogs = list.split(',');
@@ -39,7 +47,7 @@ String getID(String environment, String list) {
 }
 
 // Query WordPress for a list of plugins installed relative to a specific site, and their current version
-String getPlugins() {
+String getPluginList() {
   var result = execute('-r', 'wp', [
     'plugin list --status=active --fields=name,version --ssh=${unmarshal['user']}@${unmarshal['server']}:${unmarshal['install']} --url=${unmarshal['address']} --skip-plugins --skip-themes --skip-packages --format=csv',
   ]);
@@ -47,7 +55,7 @@ String getPlugins() {
 }
 
 // Query WordPress for a list of themes installed relative to a specific site, and their current version
-String getThemes() {
+String getThemeList() {
   var result = execute('-r', 'wp', [
     'theme list --status=active --fields=name,version --ssh=${unmarshal['user']}@${unmarshal['server']}:${unmarshal['install']} --url=${unmarshal['address']} --skip-plugins --skip-themes --skip-packages --format=csv',
   ]);
@@ -65,7 +73,7 @@ void exportDatabase() {
 }
 
 // Create a user export file in CSV format
-String exportUsers() {
+String exportUserList() {
   var result = execute('-r', 'wp', [
     'user list --ssh=${unmarshal['user']}@${unmarshal['server']}:${unmarshal['install']} --url=${unmarshal['address']} --skip-plugins --skip-themes --skip-packages --format=csv',
   ]);
@@ -76,7 +84,7 @@ String exportUsers() {
 void copyAssets(String source, String destination) {
   execute('-d', 'cd', [destination]);
   execute('-d', 'scp', ['-r $source $destination']);
-  execute('-d', 'tar', ['-cvf assets.tar $destination$siteID']);
+  execute('-d', 'tar', ['-cvf assets.tar $destination$siteNumber']);
 }
 
 // Flush the WordPress and Composer caches
