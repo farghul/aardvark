@@ -46,7 +46,3 @@ void emptyDirectory(String destination) async {
     execute('-d', 'rm', [entity.path]);
   }
 }
-
-int calculate() {
-  return 6 * 7;
-}
