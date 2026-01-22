@@ -14,12 +14,12 @@ Aardvark is a WordPress website (blog) archiving application. It Automates the p
 {
     "address": "Full website URL",
     "assets": "Path to your WordPress website assets",
-    "ephemeral": "Path to your temp folder",
+    "temp": "Path to your temp folder",
     "home": "Home folder of the authorized user",
     "install": "Full path to the web/wp folder",
-    "lists": "Full path to the folder holding the results of the getSites() function",
+    "lists": "Full path to the folder holding the result of the getSiteList() function",
     "server": "Server name hosting WordPress",
-    "sites": "Title of the file created by getSites() function",
+    "sites": "Title of the file created by getSiteList() function",
     "folder": "Root folder of your WordPress installation",
     "user": "User authorized to make changes on the server"
 }
@@ -34,7 +34,7 @@ Before building the application, change the value of the `location` variable to 
 ```
 
 ``` zsh
-dart compile exe bin/main.dart
+dart compile exe bin/aardvark.dart -o aardvark
 ```
 
 ## Run

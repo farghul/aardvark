@@ -68,7 +68,7 @@ void exportDatabase() {
     'db tables --all-tables-with-prefix --ssh=${unmarshal['user']}@${unmarshal['server']}:${unmarshal['install']} --url=${unmarshal['address']} --skip-plugins --skip-themes --skip-packages --format=csv',
   ]);
   execute('-d', 'wp', [
-    'db export --tables=${inner.stdout} ${unmarshal['ephemeral']}tables.sql --ssh=${unmarshal['user']}@${unmarshal['server']}:${unmarshal['install']}',
+    'db export --tables=${inner.stdout} ${unmarshal['temp']}tables.sql --ssh=${unmarshal['user']}@${unmarshal['server']}:${unmarshal['install']}',
   ]);
 }
 
